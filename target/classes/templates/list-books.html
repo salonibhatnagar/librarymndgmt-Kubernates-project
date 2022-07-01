@@ -19,9 +19,8 @@
 		<div th:switch="${books}" class="container my-5">
 			<p class="my-5">
 				<a href="/add" class="btn btn-dark"> <i
-					class="fas fa-user-plus ml-2"> Add Book </i></a>&nbsp;&nbsp;<a
-					href="/export/all-book" class="btn btn-info"> <i
-					class="fas fa-file-csv ml-2"> Export CSV </i></a>
+					class="fas fa-user-plus ml-2"> Add Book </i></a>&nbsp;&nbsp
+
 			</p>
 			<div class="col-md-12">
 				<h2 th:case="null">No record found !!</h2>
@@ -37,7 +36,6 @@
 								<th>Detail</th>
 								<th>Edit</th>
 								<th>Delete</th>
-								<th>Add Book</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -52,8 +50,7 @@
 									class="btn btn-warning"><i class="fas fa-user-edit ml-2"></i></a></td>
 								<td><a th:href="@{/remove-book/{id}(id=${book.id})}"
 									class="btn btn-danger"><i class="fas fa-user-times ml-2"></i></a></td>
-								<td><a th:href="@{/remove-book/{id}(id=${book.id})}"
-									   class="btn btn-danger"><i class="fas fa-user-times ml-2"></i></a></td>
+
 							</tr>
 						</tbody>
 					</table>
