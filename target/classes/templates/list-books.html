@@ -37,6 +37,7 @@
 								<th>Detail</th>
 								<th>Edit</th>
 								<th>Delete</th>
+								<th>Add Book</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -51,6 +52,8 @@
 									class="btn btn-warning"><i class="fas fa-user-edit ml-2"></i></a></td>
 								<td><a th:href="@{/remove-book/{id}(id=${book.id})}"
 									class="btn btn-danger"><i class="fas fa-user-times ml-2"></i></a></td>
+								<td><a th:href="@{/remove-book/{id}(id=${book.id})}"
+									   class="btn btn-danger"><i class="fas fa-user-times ml-2"></i></a></td>
 							</tr>
 						</tbody>
 					</table>
