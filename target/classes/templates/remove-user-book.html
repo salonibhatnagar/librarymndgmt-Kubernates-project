@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Update Book</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+</head>
+
+<body style="height: 100vh; width: 100vw" background="https://yesofcorsa.com/wp-content/uploads/2017/05/Library-Desktop-Wallpaper.jpg">
+<div th:insert="comman/header :: header"></div>
+<div class="container my-5">
+  <h3>Issue Book</h3>
+  <div class="card">
+    <div class="card-body">
+      <div class="col-md-10">
+        <form action="#" th:action="@{/removeuser-book}"
+              th:object="${userBook}" method="post">
+          <div class="row">
+
+            <div class="form-group col-md-8">
+              <label for="book_name" class="col-form-label">Book Name</label>
+              <input type="text" th:field="*{book_name}"
+                     class="form-control" id="book_name" placeholder="Book Name" />
+            </div>
+            <div class="form-group col-md-8">
+              <label for="email" class="col-form-label">User</label>
+              <input type="text" th:field="*{email}"
+                     class="form-control" id="email" placeholder="User email" />
+            </div>
+
+            <div class="col-md-6">
+              <input type="submit" class="btn btn-success" value=" Submit ">
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div th:insert="comman/footer :: footer"></div>
+</body>
+
+</html>

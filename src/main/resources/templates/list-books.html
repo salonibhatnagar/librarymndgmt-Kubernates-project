@@ -18,11 +18,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<div class="container my-2" >
 
 		<div th:switch="${books}" class="container my-5">
-			<p class="my-5">
+			<p class="my-5" th sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 				<a href="/add" class="btn btn-dark"> <i
 					class="fas fa-user-plus ml-2"> Add Book </i></a>&nbsp;&nbsp
 			</p>
-			<div Welcome th:text="${userid}"/>
 			<div class="col-md-12">
 				<h2 th:case="null">No record found !!</h2>
 				<div th:case="*">
@@ -39,6 +38,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 								<th sec:authorize="hasAnyAuthority('ROLE_ADMIN')">Edit</th>
 								<th sec:authorize="hasAnyAuthority('ROLE_ADMIN')">Delete</th>
 								<th sec:authorize="hasAnyAuthority('ROLE_ADMIN')">Issue</th>
+								<th sec:authorize="hasAnyAuthority('ROLE_ADMIN')">Return</th>
+
 							</tr>
 						</thead>
 						<tbody>
@@ -56,7 +57,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 								<td sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a th:href="@{/remove-book/{id}(id=${book.id})}"
 									class="btn btn-danger"><i class="fas fa-user-times ml-2"></i></a></td>
 								<td sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a th:href="@{/adduser-book/{id}(id=${book.id})}"
-								class="btn btn-danger"><i class="fas fa-user-times ml-2"></i></a></td>
+								class="btn btn-success"><i class="fas fa-user-plus ml-2"></i></a></td>
+								<td sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a th:href="@{/removeuser-book/{id}(id=${book.id})}"
+																					 class="btn btn-danger"><i class="fas fa-user-times ml-2"></i></a></td>
 							</tr>
 						</tbody>
 					</table>

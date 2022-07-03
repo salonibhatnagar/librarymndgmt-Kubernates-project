@@ -12,13 +12,13 @@
 	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 </head>
 
-<body>
+<body style="height: 100vh; width: 100vw" background="https://yesofcorsa.com/wp-content/uploads/2017/05/Library-Desktop-Wallpaper.jpg">
 	<div th:insert="comman/header :: header"></div>
-	<div class="container my-5">
+	<div class="container p-3 my-3 bg-dark text-white">
 		<h3>Add Book</h3>
-		<div class="card">
+		<div class="container p-1 my-1 bg-dark text-white">
 			<div class="card-body">
-				<div class="col-md-10">
+				<div class="col-md-8">
 					<form action="#" th:action="@{/add-book}" th:object="${book}"
 						method="post">
 						<div class="row">

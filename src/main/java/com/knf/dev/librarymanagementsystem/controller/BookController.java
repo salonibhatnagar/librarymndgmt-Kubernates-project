@@ -134,7 +134,7 @@ public String getUserBook( Model model,Principal principal ) {
 	return "list-books";
 }
 	@GetMapping("/adduser-book/{id}")
-	public String showUpdateForm(@PathVariable("id") long id, Model model) {
+	public String showAddUserBookForm(@PathVariable("id") long id, Model model) {
 		model.addAttribute("book", bookService.findBookById(id));
 		model.addAttribute("userBook", new UserBook());
 		System.out.println( bookService.findBookById(id));
@@ -150,6 +150,27 @@ public String getUserBook( Model model,Principal principal ) {
 		Book book2 = bookService.findBookByName(userBook.getBook_name());
 		book2.addUsers(user);
 		book2.setInventory((book2.getInventory()>0)?book2.getInventory()-1:0);
+		bookService.updateBook(book2);
+		return "redirect:/books";
+	}
+	@GetMapping("/removeuser-book/{id}")
+	public String showRemoveUserBookForm(@PathVariable("id") long id, Model model) {
+		model.addAttribute("book", bookService.findBookById(id));
+		model.addAttribute("userBook", new UserBook());
+		System.out.println( bookService.findBookById(id));
+		return "remove-user-book";
+	}
+	@RequestMapping(value = "/removeuser-book")
+	public String removeUserBook(@ModelAttribute("userBook") UserBook userBook, BindingResult result, Principal principal, Model model) {
+		if (result.hasErrors()) {
+			//userBook.setId(id);
+			return "remove-user-book";
+		}
+		User user = userServiceImpl.findUserByEmail(userBook.getEmail());
+		Book book2 = bookService.findBookByName(userBook.getBook_name());
+		book2.addUsers(user);
+		book2.removeUsers(user);
+		book2.setInventory((book2.getInventory()>0)?book2.getInventory()+1:0);
 		bookService.updateBook(book2);
 		return "redirect:/books";
 	}

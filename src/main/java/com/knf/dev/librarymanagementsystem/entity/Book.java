@@ -93,7 +93,10 @@ public class Book {
 		this.users.add(user);
 		user.getBooks().add(this);
 	}
-
+	public void removeUsers(User user) {
+		this.users.remove(user);
+		user.getBooks().remove(this);
+	}
 	public void removePublishers(Publisher publisher) {
 		this.publishers.remove(publisher);
 		publisher.getBooks().remove(this);
