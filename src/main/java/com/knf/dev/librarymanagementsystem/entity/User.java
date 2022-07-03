@@ -1,19 +1,9 @@
 package com.knf.dev.librarymanagementsystem.entity;
 
 import java.util.Collection;
+import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -38,18 +28,24 @@ public class User {
 
 	private Collection<Role> roles;
 
+//	@OneToMany(cascade = CascadeType.ALL,
+//			fetch = FetchType.LAZY,
+//			mappedBy = "user")
+//    @JoinColumn(name="id" , referencedColumnName = "id")
+//	private Collection<Book> books;
 	public User() {
 
 	}
 
 	public User(String firstName, String lastName, String email, String password, Collection<Role> roles) {
-		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 		this.roles = roles;
+		//this.books = books;
 	}
+
 
 	public Long getId() {
 		return id;
@@ -98,4 +94,12 @@ public class User {
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
+
+//	public Collection<Book> getBooks() {
+//		return books;
+//	}
+//
+//	public void setBooks(Collection<Book> books) {
+//		this.books = books;
+//	}
 }

@@ -3,24 +3,14 @@ package com.knf.dev.librarymanagementsystem.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "books")
 public class Book {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "isbn", length = 50, nullable = false, unique = true)
@@ -34,6 +24,10 @@ public class Book {
 
 	@Column(name = "description", length = 250, nullable = false)
 	private String description;
+
+	@Column(name = "inventory", length = 250, nullable = false)
+	private int inventory;
+
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	@JoinTable(name = "books_authors", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
@@ -50,11 +44,17 @@ public class Book {
 			@JoinColumn(name = "publisher_id") })
 	private Set<Publisher> publishers = new HashSet<Publisher>();
 
-	public Book(String isbn, String name, String serialName, String description) {
+//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+//	@JoinColumn(name = "user_id")
+//	private User user;
+
+
+	public Book(String isbn, String name, String serialName, String description, int inventory) {
 		this.isbn = isbn;
 		this.name = name;
 		this.serialName = serialName;
 		this.description = description;
+		this.inventory = inventory;
 	}
 
 	public void addAuthors(Author author) {
@@ -150,6 +150,22 @@ public class Book {
 	public void setPublishers(Set<Publisher> publishers) {
 		this.publishers = publishers;
 	}
+
+	public int getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(int inventory) {
+		this.inventory = inventory;
+	}
+
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 	public Book() {
 		super();

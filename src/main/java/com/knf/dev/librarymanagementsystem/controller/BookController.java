@@ -1,12 +1,20 @@
 package com.knf.dev.librarymanagementsystem.controller;
 
+import java.security.Principal;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.knf.dev.librarymanagementsystem.entity.User;
+import com.knf.dev.librarymanagementsystem.repository.UserRepository;
+import com.knf.dev.librarymanagementsystem.service.*;
+import com.knf.dev.librarymanagementsystem.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,10 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.knf.dev.librarymanagementsystem.entity.Book;
-import com.knf.dev.librarymanagementsystem.service.AuthorService;
-import com.knf.dev.librarymanagementsystem.service.BookService;
-import com.knf.dev.librarymanagementsystem.service.CategoryService;
-import com.knf.dev.librarymanagementsystem.service.PublisherService;
 
 @Controller
 public class BookController {
@@ -28,22 +32,29 @@ public class BookController {
 	BookService bookService;
 	@Autowired
 	AuthorService authorService;
+
+	@Autowired
+	UserService userService;
 	@Autowired
 	CategoryService categoryService;
 	@Autowired
 	PublisherService publisherService;
 
+	@Autowired
+	UserServiceImpl userServiceImpl;
+
 	@RequestMapping({ "/books", "/" })
 	public String findAllBooks(Model model, @RequestParam("page") Optional<Integer> page,
-			@RequestParam("size") Optional<Integer> size) {
-
+			@RequestParam("size") Optional<Integer> size, Principal principal) {
+		String name = principal.getName();
+		User u = userServiceImpl.findUserByEmail(name);
 		var currentPage = page.orElse(1);
 		var pageSize = size.orElse(5);
 
 		var bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
 
 		model.addAttribute("books", bookPage);
-
+		model.addAttribute("userid", u.getFirstName());
 		var totalPages = bookPage.getTotalPages();
 		if (totalPages > 0) {
 			var pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
@@ -109,9 +120,16 @@ public class BookController {
 	@RequestMapping("/remove-book/{id}")
 	public String deleteBook(@PathVariable("id") Long id, Model model) {
 		bookService.deleteBook(id);
-
 		model.addAttribute("book", bookService.findAllBooks());
 		return "redirect:/books";
 	}
+//	@RequestMapping("/add-book/{book}")
+//	public String deleteBook(@AuthenticationPrincipal UserServiceImpl userDetails,@PathVariable("book") Book book, Model model) {
+//		//bookService.deleteBook(id);
+//		long id = book.
+//		userService.updateUser();
+//		model.addAttribute("book", bookService.findAllBooks());
+//		return "redirect:/books";
+//	}
 
 }

@@ -38,19 +38,20 @@ public class Application {
 	public CommandLineRunner initialCreate() {
 		return (args) -> {
 
-			var book = new Book("AP1287", "Spring in Action ", "CXEF12389", "Book description");
+			var book = new Book("AP1287", "Spring in Action ", "CXEF12389", "Book description",2);
 			book.addAuthors(new Author("Matt", "dummy description"));
 			book.addCategories(new Category("Dummy categary"));
 			book.addPublishers(new Publisher("Dummy publisher"));
 			bookService.createBook(book);
 
-			var book1 = new Book("BP567#R", "Spring Microservices", "KCXEF12389", "Description1");
+			var book1 = new Book("BP567#R", "Spring Microservices", "KCXEF12389", "Description1",2);
 			book1.addAuthors(new Author("Maxwell", "Test description1"));
 			book1.addCategories(new Category("New category"));
 			book1.addPublishers(new Publisher("publisher2"));
 			bookService.createBook(book1);
 
-			var book2 = new Book("GH67F#", "Spring Boot", "UV#JH", "description2");
+			var book2 = new Book("GH67F#", "Spring Boot", "UV#JH", "description2"
+			,0);
 			book2.addAuthors(new Author("Josh Lang", "Test description2"));
 			book2.addCategories(new Category("Spring category"));
 			book2.addPublishers(new Publisher("publisher3"));
@@ -58,7 +59,13 @@ public class Application {
 
 			var user = new User("admin", "admin", "admin@admin.in", passwordEncoder.encode("Temp123"),
 					Arrays.asList(new Role("ROLE_ADMIN")));
+			var user1 = new User("saloni", "bhatnagar", "saloni@gmail.in", passwordEncoder.encode("saloni123"),
+					Arrays.asList(new Role("ROLE_USER")));
+//			book.setUser(user1);
+//			book2.setUser(user1);
+
 			userRepository.save(user);
+			userRepository.save(user1);
 
 		};
 	}

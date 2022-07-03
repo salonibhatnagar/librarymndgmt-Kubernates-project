@@ -12,7 +12,7 @@
 	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 
 </head>
-<body>
+<body style="height: 100vh; width: 100vw" background="https://yesofcorsa.com/wp-content/uploads/2017/05/Library-Desktop-Wallpaper.jpg">
 	<div th:insert="comman/header :: header"></div>
 	<div class="container my-2">
 
@@ -24,7 +24,7 @@
 			<div class="col-md-12">
 				<h2 th:case="null">No record found !!</h2>
 				<div th:case="*">
-					<table class="table table-bordered">
+					<table class="table table-dark">
 						<thead>
 							<tr>
 								<th>Publisher Name</th>
