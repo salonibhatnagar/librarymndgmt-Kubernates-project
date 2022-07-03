@@ -23,6 +23,7 @@ com\knf\dev\librarymanagementsystem\repository\CategoryRepository.class
 com\knf\dev\librarymanagementsystem\service\BookService.class
 com\knf\dev\librarymanagementsystem\service\UserService.class
 com\knf\dev\librarymanagementsystem\exception\NotFoundException.class
+com\knf\dev\librarymanagementsystem\entity\UserBook.class
 com\knf\dev\librarymanagementsystem\service\impl\PublisherServiceImpl.class
 com\knf\dev\librarymanagementsystem\constant\Item.class
 com\knf\dev\librarymanagementsystem\entity\Category.class

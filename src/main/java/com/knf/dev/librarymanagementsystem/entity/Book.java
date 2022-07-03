@@ -1,5 +1,7 @@
 package com.knf.dev.librarymanagementsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,7 +50,13 @@ public class Book {
 //	@JoinColumn(name = "user_id")
 //	private User user;
 
-
+	@ManyToMany
+	@JoinTable(name = "user_book",
+			joinColumns = @JoinColumn(name = "book_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id"))
+	//@ToString.Exclude
+	@JsonBackReference
+	private Set<User> users = new HashSet<User>(); ;
 	public Book(String isbn, String name, String serialName, String description, int inventory) {
 		this.isbn = isbn;
 		this.name = name;
@@ -80,6 +88,10 @@ public class Book {
 	public void addPublishers(Publisher publisher) {
 		this.publishers.add(publisher);
 		publisher.getBooks().add(this);
+	}
+	public void addUsers(User user) {
+		this.users.add(user);
+		user.getBooks().add(this);
 	}
 
 	public void removePublishers(Publisher publisher) {
@@ -159,16 +171,30 @@ public class Book {
 		this.inventory = inventory;
 	}
 
-//	public User getUser() {
-//		return user;
-//	}
-//
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
 
 	public Book() {
 		super();
 	}
 
+	@Override
+	public String toString() {
+		return "Book{" +
+				"id=" + id +
+				", isbn='" + isbn + '\'' +
+				", name='" + name + '\'' +
+				", serialName='" + serialName + '\'' +
+				", description='" + description + '\'' +
+				", inventory=" + inventory +
+				", authors=" + authors +
+				", categories=" + categories +
+				", publishers=" + publishers +
+				'}';
+	}
 }

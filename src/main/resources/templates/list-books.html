@@ -38,7 +38,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 								<th>Detail</th>
 								<th sec:authorize="hasAnyAuthority('ROLE_ADMIN')">Edit</th>
 								<th sec:authorize="hasAnyAuthority('ROLE_ADMIN')">Delete</th>
-
+								<th sec:authorize="hasAnyAuthority('ROLE_ADMIN')">Issue</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -55,7 +55,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 									class="btn btn-warning"><i class="fas fa-user-edit ml-2"></i></a></td>
 								<td sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a th:href="@{/remove-book/{id}(id=${book.id})}"
 									class="btn btn-danger"><i class="fas fa-user-times ml-2"></i></a></td>
-
+								<td sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a th:href="@{/adduser-book/{id}(id=${book.id})}"
+								class="btn btn-danger"><i class="fas fa-user-times ml-2"></i></a></td>
 							</tr>
 						</tbody>
 					</table>

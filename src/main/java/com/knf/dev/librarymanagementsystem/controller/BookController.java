@@ -1,11 +1,15 @@
 package com.knf.dev.librarymanagementsystem.controller;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import ch.qos.logback.core.CoreConstants;
 import com.knf.dev.librarymanagementsystem.entity.User;
+import com.knf.dev.librarymanagementsystem.entity.UserBook;
 import com.knf.dev.librarymanagementsystem.repository.UserRepository;
 import com.knf.dev.librarymanagementsystem.service.*;
 import com.knf.dev.librarymanagementsystem.service.impl.UserServiceImpl;
@@ -18,10 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.knf.dev.librarymanagementsystem.entity.Book;
 
@@ -46,15 +47,15 @@ public class BookController {
 	@RequestMapping({ "/books", "/" })
 	public String findAllBooks(Model model, @RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size, Principal principal) {
-		String name = principal.getName();
-		User u = userServiceImpl.findUserByEmail(name);
+		//String name = principal.getName();
+		//User u = userServiceImpl.findUserByEmail(name);
+		//u.getBooks();
 		var currentPage = page.orElse(1);
 		var pageSize = size.orElse(5);
 
 		var bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
 
 		model.addAttribute("books", bookPage);
-		model.addAttribute("userid", u.getFirstName());
 		var totalPages = bookPage.getTotalPages();
 		if (totalPages > 0) {
 			var pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
@@ -123,13 +124,33 @@ public class BookController {
 		model.addAttribute("book", bookService.findAllBooks());
 		return "redirect:/books";
 	}
-//	@RequestMapping("/add-book/{book}")
-//	public String deleteBook(@AuthenticationPrincipal UserServiceImpl userDetails,@PathVariable("book") Book book, Model model) {
-//		//bookService.deleteBook(id);
-//		long id = book.
-//		userService.updateUser();
-//		model.addAttribute("book", bookService.findAllBooks());
-//		return "redirect:/books";
-//	}
-
+@RequestMapping("/userBooks")
+public String getUserBook( Model model,Principal principal ) {
+	String name = principal.getName();
+	User user = userServiceImpl.findUserByEmail(name);
+	Collection<Book> books=user.getBooks();
+	System.out.println(user);
+	model.addAttribute("books", books);
+	return "list-books";
+}
+	@GetMapping("/adduser-book/{id}")
+	public String showUpdateForm(@PathVariable("id") long id, Model model) {
+		model.addAttribute("book", bookService.findBookById(id));
+		model.addAttribute("userBook", new UserBook());
+		System.out.println( bookService.findBookById(id));
+		return "add-user-book";
+	}
+	@RequestMapping(value = "/saveuser-book")
+	public String saveUserBook(@ModelAttribute("userBook") UserBook userBook, BindingResult result, Principal principal, Model model) {
+		if (result.hasErrors()) {
+			//userBook.setId(id);
+			return "add-user-book";
+		}
+		User user = userServiceImpl.findUserByEmail(userBook.getEmail());
+		Book book2 = bookService.findBookByName(userBook.getBook_name());
+		book2.addUsers(user);
+		book2.setInventory((book2.getInventory()>0)?book2.getInventory()-1:0);
+		bookService.updateBook(book2);
+		return "redirect:/books";
+	}
 }

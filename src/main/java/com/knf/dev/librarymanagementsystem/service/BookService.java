@@ -15,6 +15,8 @@ public interface BookService {
 
 	public Book findBookById(Long id);
 
+	public Book findBookByName(String name);
+
 	public void createBook(Book book);
 
 	public void updateBook(Book book);

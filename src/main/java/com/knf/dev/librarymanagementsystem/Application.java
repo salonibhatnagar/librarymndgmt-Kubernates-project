@@ -1,6 +1,7 @@
 package com.knf.dev.librarymanagementsystem;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -38,7 +39,7 @@ public class Application {
 	public CommandLineRunner initialCreate() {
 		return (args) -> {
 
-			var book = new Book("AP1287", "Spring in Action ", "CXEF12389", "Book description",2);
+			var book = new Book("AP1287", "Spring in Action", "CXEF12389", "Book description",2);
 			book.addAuthors(new Author("Matt", "dummy description"));
 			book.addCategories(new Category("Dummy categary"));
 			book.addPublishers(new Publisher("Dummy publisher"));
@@ -61,11 +62,12 @@ public class Application {
 					Arrays.asList(new Role("ROLE_ADMIN")));
 			var user1 = new User("saloni", "bhatnagar", "saloni@gmail.in", passwordEncoder.encode("saloni123"),
 					Arrays.asList(new Role("ROLE_USER")));
-//			book.setUser(user1);
-//			book2.setUser(user1);
-
+            //user1.setBooks(Arrays.asList(book,book1));
+            //System.out.println(user1.getBooks());
 			userRepository.save(user);
 			userRepository.save(user1);
+			book2.addUsers(user1);
+			bookService.updateBook(book2);
 
 		};
 	}

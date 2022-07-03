@@ -46,6 +46,11 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
+	public Book findBookByName(String name) {
+		return bookRepository.findByName(name);
+	}
+
+	@Override
 	public void createBook(Book book) {
 		bookRepository.save(book);
 	}

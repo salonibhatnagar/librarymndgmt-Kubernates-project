@@ -1,7 +1,11 @@
 package com.knf.dev.librarymanagementsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -33,6 +37,10 @@ public class User {
 //			mappedBy = "user")
 //    @JoinColumn(name="id" , referencedColumnName = "id")
 //	private Collection<Book> books;
+
+	@ManyToMany(mappedBy = "users")
+	@JsonManagedReference
+	private Set<Book> books = new HashSet<>();
 	public User() {
 
 	}
@@ -95,11 +103,24 @@ public class User {
 		this.roles = roles;
 	}
 
-//	public Collection<Book> getBooks() {
-//		return books;
-//	}
-//
-//	public void setBooks(Collection<Book> books) {
-//		this.books = books;
-//	}
+	public Set<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(Set<Book> books) {
+		this.books = books;
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", roles=" + roles +
+				", books=" + books +
+				'}';
+	}
 }
